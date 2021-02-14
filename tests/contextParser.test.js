@@ -1,6 +1,5 @@
 const ContextParser = require('../lib/contextParser');
 const existing_config_dir = './tests/fixtures/base';
-const non_existing_config_dir = './tests/fixtures/none';
 const expected_context = {
   development: {
     environment: "development",
