@@ -19,7 +19,7 @@ charset = utf-8
 indent_style = tab
 
 # Indentation override for all JS under lib directory
-[{lib,tests}/**.js]
+[{lib,tests,bin,cmds}/**.js]
 indent_style = space
 indent_size = 2
 

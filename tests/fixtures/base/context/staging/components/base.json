@@ -1,5 +1,5 @@
 {
-    "database": {
-        "size": 10
+    "application": {
+        "replicas": 3
     }
 }
