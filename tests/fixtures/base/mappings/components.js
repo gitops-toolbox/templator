@@ -1,6 +1,6 @@
 /**
- * 
- * @param {*} context 
+ *
+ * @param {*} context
  */
 exports.render = function (context) {
   const locations = [];
@@ -8,9 +8,9 @@ exports.render = function (context) {
     locations.push({
       template: `components/${component}.njk`,
       contextSelector: `components.${component}`,
-      destination: {}
+      destination: {},
     });
   }
 
   return { locations: locations };
-}
+};

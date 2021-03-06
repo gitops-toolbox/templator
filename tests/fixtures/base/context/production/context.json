@@ -1,8 +1,8 @@
 {
-    "environment": "production",
-    "components": {
-        "application": {
-            "replicas": 5
-        }
+  "environment": "production",
+  "components": {
+    "application": {
+      "replicas": 5
     }
+  }
 }
