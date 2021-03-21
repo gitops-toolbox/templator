@@ -1,0 +1,13 @@
+{# You can access the context with 'this' #}
+{# the output should be a valid json #}
+{
+    "locations": [
+    {%- for component in this.components %}
+        {
+            "template": "<path_component_to_template>",
+            "contextSelector": "components.{{ component }}",
+            "destination": {},
+        }
+    {%- endfor %}
+    ]
+}

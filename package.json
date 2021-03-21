@@ -1,10 +1,10 @@
 {
-  "name": "generator",
+  "name": "@gitops-toolbox/templator",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "tap",
     "prettier": "prettier check ."
   },
   "author": "",
@@ -19,7 +19,7 @@
     "tp": "bin/cli.js"
   },
   "devDependencies": {
-    "jest": "^26.6.3",
-    "prettier": "2.2.1"
+    "prettier": "2.2.1",
+    "tap": "^14.11.0"
   }
 }

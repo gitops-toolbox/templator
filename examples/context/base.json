@@ -1,0 +1,10 @@
+{
+  "components": {
+    "application": {
+      "name": "templator"
+    },
+    "database": {
+      "name": "None"
+    }
+  }
+}

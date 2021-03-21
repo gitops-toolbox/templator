@@ -1,22 +1,28 @@
-const MappingRenderer = require("../lib/mappingRenderer");
-const existingConfigDir = "./tests/fixtures/base";
+const MappingRenderer = require('../lib/mappingRenderer');
+const tap = require('tap');
+const existingConfigDir = './tests/fixtures/base';
 const context = { 1: 1 };
 
-describe("Render template", () => {
-  test("Should throw because no render function is available", () => {
+tap.test('Render template', (t) => {
+  t.plan(3);
+  t.test('Should throw because no render function is available', async (t) => {
+    t.plan(1);
     const tr = new MappingRenderer(existingConfigDir);
-    expect(() => tr.render("noRender.js", context)).toThrow(
-      "does not have a render function"
+    t.rejects(
+      tr.render('noRender.js', context),
+      'does not have a render function'
     );
   });
 
-  test("Should return the context", () => {
+  t.test('Should return the context', async (t) => {
+    t.plan(1);
     const tr = new MappingRenderer(existingConfigDir);
-    expect(tr.render("render.js", context)).toStrictEqual(context);
+    t.equal(await tr.render('render.js', context), context);
   });
 
-  test("Should return the context", () => {
+  t.test('Should return the context', async (t) => {
+    t.plan(1);
     const tr = new MappingRenderer(existingConfigDir);
-    expect(tr.render("render.njk", context)).toStrictEqual(context);
+    t.same(await tr.render('render.njk', context), context);
   });
 });

@@ -1,95 +1,145 @@
-const ContextParser = require("../lib/contextParser");
-const { expectedContext, existingConfigDir } = require("./data");
+const tap = require('tap');
+const log = require('debug')('teeest');
+const ContextParser = require('../lib/contextParser');
+const { expectedContext, existingConfigDir } = require('./data');
 
-describe("Context parser", () => {
-  describe("When context is empty", () => {
-    test("Should return an error?", () => {
+tap.test('Context parser', (t) => {
+  t.plan(3);
+  t.test('When context is empty', (t) => {
+    t.plan(1);
+    t.test('Should return an error?', async (t) => {
+      t.plan(1);
       const cp = new ContextParser(existingConfigDir, {
-        contextDir: "emptycontext",
+        contextDir: 'emptycontext',
       });
-      expect(cp.context).toStrictEqual({});
+      t.same(await cp.context(), {});
     });
   });
 
-  describe("When loading a sparse context", () => {
-    test("Should return a parsed context", () => {
+  t.test('When loading a sparse context', (t) => {
+    t.plan(1);
+    t.test('Should return a parsed context', async (t) => {
+      t.plan(1);
       const cp = new ContextParser(existingConfigDir, {
-        contextDir: "sparsecontext",
+        contextDir: 'sparsecontext',
       });
-      expect(cp.context).toStrictEqual({
-        layer1: { layer2: { test: "test" } },
+      t.same(await cp.context(), {
+        layer1: { layer2: { test: 'test' } },
       });
     });
   });
 
-  describe("When context is present", () => {
+  t.test('When context is present', async (t) => {
     let cp;
+    t.plan(4);
 
-    beforeEach(() => {
-      cp = new ContextParser(existingConfigDir);
+    t.beforeEach((done, t) => {
+      t.context.cp = new ContextParser(existingConfigDir);
+      done();
     });
 
-    test("Should return an object merging all context files", () => {
-      expect(cp.context).toStrictEqual(expectedContext);
+    t.test('Should return an object merging all context files', async (t) => {
+      t.plan(1);
+      t.same(await t.context.cp.context(), expectedContext);
     });
 
-    test("Should return a list of context files", () => {
-      expect(cp.contextFiles).toStrictEqual([
-        "context/base.json",
-        "context/development/context.json",
-        "context/production/context.json",
-        "context/staging/base.json",
-        "context/staging/context.json",
-        "context/development/components/base.json",
-        "context/production/components/base.json",
-        "context/staging/components/base.json",
+    t.test('Should return a list of context files', (t) => {
+      t.plan(1);
+      t.same(t.context.cp.contextFiles, [
+        'context/base.json',
+        'context/development/context.json',
+        'context/production/context.json',
+        'context/staging/base.json',
+        'context/staging/context.json',
+        'context/development/components/base.json',
+        'context/production/components/base.json',
+        'context/staging/components/base.json',
       ]);
     });
 
-    test("Should return a selection of the context", () => {
-      expect(cp.fromSelector("development")).toMatchObject(
+    t.test('Should return a selection of the context', async (t) => {
+      t.plan(6);
+
+      t.same(
+        await t.context.cp.fromSelector('development'),
         expectedContext.development
       );
-      expect(cp.fromSelector("development.components")).toStrictEqual(
+
+      t.same(
+        await t.context.cp.fromSelector('development.components'),
         expectedContext.development.components
       );
-      expect(cp.fromSelector(["development", "components"])).toStrictEqual(
+
+      t.same(
+        await t.context.cp.fromSelector(['development', 'components']),
         expectedContext.development.components
       );
-      expect(
-        cp.fromSelector({
-          base: "development.components.database",
+
+      t.same(
+        await t.context.cp.fromSelector({
+          base: 'development.components.database',
           assign: [expectedContext],
-        })
-      ).toStrictEqual({
-        ...expectedContext.development.components.database,
-        ...expectedContext,
-      });
+        }),
+        {
+          ...expectedContext.development.components.database,
+          ...expectedContext,
+        }
+      );
 
-      expect(
-        cp.fromSelector({ base: "development", assign: ["staging"] })
-      ).toStrictEqual({
-        environment: "staging",
-        components: {
-          application: {
-            replicas: 3,
+      t.same(
+        await t.context.cp.fromSelector({
+          base: 'development',
+          assign: ['staging'],
+        }),
+        {
+          environment: 'staging',
+          components: {
+            application: {
+              replicas: 3,
+            },
           },
-        },
-      });
+        }
+      );
 
-      expect(
-        cp.fromSelector({ base: "development", mergeWith: ["staging"] })
-      ).toStrictEqual({
-        environment: "staging",
-        components: {
-          database: {
-            size: 5,
+      t.same(
+        await t.context.cp.fromSelector({
+          base: 'development',
+          mergeWith: ['staging'],
+        }),
+        {
+          environment: 'staging',
+          components: {
+            database: {
+              size: 5,
+            },
+            application: {
+              replicas: 3,
+            },
           },
-          application: {
-            replicas: 3,
+        }
+      );
+    });
+
+    t.test('Should virtually support any lodash method', async (t) => {
+      t.plan(1);
+
+      t.same(
+        await t.context.cp.fromSelector({
+          base: 'development',
+          defaultsDeep: ['staging'],
+        }),
+        {
+          components: {
+            application: {
+              replicas: 3,
+            },
+            database: {
+              size: 5,
+            },
           },
-        },
-      });
+          environment: 'development',
+        }
+      );
     });
   });
 });

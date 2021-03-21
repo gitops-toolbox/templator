@@ -1,20 +1,26 @@
-const TemplateRenderer = require("../lib/templateRenderer");
-const existingConfigDir = "./tests/fixtures/base";
+const TemplateRenderer = require('../lib/templateRenderer');
+const existingConfigDir = './tests/fixtures/base';
+const tap = require('tap');
 const context = { 1: 1 };
 
-describe("Render template", () => {
-  test("Should return the stringified context", () => {
+tap.test('Render template', (t) => {
+  t.plan(2);
+  t.test('Should return the stringified context', async (t) => {
+    t.plan(1);
     const tr = new TemplateRenderer(existingConfigDir);
-    expect(tr.render("dump.njk", context)).toBe(
+    t.same(
+      await tr.render('dump.njk', context),
       JSON.stringify(context, null, 2)
     );
   });
 
-  test("Should load template from different folder", () => {
+  t.test('Should load template from different folder', async (t) => {
+    t.plan(1);
     const tr = new TemplateRenderer(existingConfigDir, {
-      templatesDir: "tmplts",
+      templatesDir: 'tmplts',
     });
-    expect(tr.render("dumps.njk", context)).toBe(
+    t.same(
+      await tr.render('dumps.njk', context),
       JSON.stringify(context, null, 2)
     );
   });
