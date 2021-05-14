@@ -1,8 +1,8 @@
 'use strict';
 
 const Utils = require('../lib/utils');
-const ContextParser = require('../lib/contextParser');
-const MappingRenderer = require('../lib/mappingRenderer');
+const ContextParser = require('@gitops-toolbox/config-loader');
+const Mappings = require('../lib/mappings');
 const log = require('debug')('t:renderMapping');
 
 exports.command = 'renderMapping <mapping> [context-selector]';
@@ -18,16 +18,16 @@ exports.builder = (yargs) => {
     .option('context-selector', {
       describe: 'context slice, path can be passed as x.y.z or ["x","y","z"]',
       coerce: (param) => {
-        return Utils.contextSliceParser(param);
+        return Utils.tryJSONParse(param);
       },
     });
 };
 
 exports.handler = async function (args) {
-  const contextParser = new ContextParser(args.configDir, args);
-  const context = contextParser.fromSelector(args.contextSelector);
+  const contextParser = new ContextParser(args.baseDir, args);
+  const context = await contextParser.fromSelector(args.contextSelector);
   log('Selected context %o from %o', context, args.contextSelector);
-  const mappingRenderer = new MappingRenderer(args.configDir, args);
-  const mapping = mappingRenderer.render(args.mapping, context);
-  console.log(JSON.stringify(mapping, null, 2));
+  const mappings = new Mappings(args.baseDir, args);
+  const result = await mappings.render(args.mapping, context);
+  console.log(JSON.stringify(result, null, 2));
 };

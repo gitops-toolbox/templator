@@ -1,14 +1,16 @@
 #!/usr/bin/env node
-import { env, terminalWidth } from 'yargs';
+const yargs = require('yargs');
 
-env('TP')
-  .option('config-dir', {
-    alias: 'c',
+yargs
+  .env('TP')
+  .option('base-dir', {
+    alias: 'b',
     desc: 'path where to find the config',
     type: 'string',
     default: '.',
   })
   .option('context-dir', {
+    alias: 'config-dir',
     type: 'string',
     describe: 'directory name of the context folder',
     default: 'context',
@@ -24,7 +26,7 @@ env('TP')
     default: 'templates',
   })
   .commandDir('../cmds')
-  .wrap(terminalWidth())
+  .wrap(yargs.terminalWidth())
   .showHelpOnFail(true)
   .demandCommand()
   .recommendCommands()

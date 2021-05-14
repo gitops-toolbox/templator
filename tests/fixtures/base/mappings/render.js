@@ -1,3 +1,3 @@
-exports.render = (context) => {
-  return context;
+exports.render = (data) => {
+  return data.context;
 };

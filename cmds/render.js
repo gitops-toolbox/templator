@@ -1,12 +1,12 @@
-import { isEqual, isUndefined } from 'lodash';
-import Templator from '../lib/templator';
-import { contextSliceParser } from '../lib/utils';
+const lodash = require('lodash');
+const Templator = require('../lib/templator');
+const { tryJSONParse } = require('../lib/utils');
 
-export const command = 'render <mapping> [context-selector]';
+exports.command = 'render <mapping> [context-selector]';
 
-export const desc = 'Output the rendered template';
+exports.desc = 'Output the rendered template';
 
-export function builder(yargs) {
+exports.builder = (yargs) => {
   yargs
     .positional('mapping', {
       describe: 'name of the template to render',
@@ -14,7 +14,7 @@ export function builder(yargs) {
     })
     .option('context-selector', {
       describe: 'context slice, path can be passed as x.y.z or ["x", "y", "z"]',
-      coerce: (param) => contextSliceParser(param),
+      coerce: (param) => tryJSONParse(param),
     })
     .option('human-readable', {
       describe: 'output the templates in human readable format',
@@ -33,17 +33,21 @@ export function builder(yargs) {
       type: 'string',
       implies: 'human-readable',
     });
-}
+};
 
-export function handler(args) {
-  const templator = new Templator(args.configDir, args);
+exports.handler = async (args) => {
+  const templator = new Templator(args.baseDir, args);
   console.log(args.h);
   if (args.h) {
-    const hm = templator.humanReadable(args.mapping, args.contextSelector);
+    const hm = await templator.humanReadable(
+      args.mapping,
+      args.contextSelector
+    );
+    console.log(hm);
     for (const location of hm) {
       if (
-        !isUndefined(args.limitTo) &&
-        !isEqual(JSON.parse(args.limitTo), location.destination)
+        !lodash.isUndefined(args.limitTo) &&
+        !lodash.isEqual(JSON.parse(args.limitTo), location.destination)
       ) {
         continue;
       }
@@ -55,7 +59,7 @@ export function handler(args) {
       console.log(location.content);
     }
   } else {
-    const render = templator.render(args.mapping, args.contextSelector);
+    const render = await templator.render(args.mapping, args.contextSelector);
     console.log(JSON.stringify(render, null, 2));
   }
-}
+};

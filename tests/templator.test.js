@@ -3,13 +3,18 @@ const tap = require('tap');
 const { existingConfigDir } = require('./data');
 
 tap.test('Given a destination template and a context', (t) => {
-  t.plan(2);
+  t.plan(4);
+
+  t.beforeEach((t) => {
+    t.context.tr = new Templator(existingConfigDir);
+  });
+
   t.test(
     'Should return components template rendered for development',
     async (t) => {
       t.plan(1);
-      const tr = new Templator(existingConfigDir);
-      t.same(await tr.render('components.js', 'development'), {
+
+      t.same(await t.context.tr.render('components.js', 'development'), {
         locations: [
           {
             template: 'components/database.njk',
@@ -26,8 +31,8 @@ tap.test('Given a destination template and a context', (t) => {
     'Should return components template rendered for production',
     async (t) => {
       t.plan(1);
-      const tr = new Templator(existingConfigDir);
-      t.same(await tr.render('components.js', 'production'), {
+
+      t.same(await t.context.tr.render('components.js', 'production'), {
         locations: [
           {
             template: 'components/application.njk',
@@ -43,6 +48,42 @@ tap.test('Given a destination template and a context', (t) => {
           },
         ],
       });
+    }
+  );
+
+  t.test(
+    'Should error if mapping does not have contextSelector or template',
+    async (t) => {
+      t.plan(2);
+      const expectedError = new Error(
+        'Each location should have a contextSelector and a template'
+      );
+      t.rejects(
+        t.context.tr.render('no_template.js', 'production'),
+        expectedError
+      );
+      t.rejects(
+        t.context.tr.render('no_contextSelector.js', 'production'),
+        expectedError
+      );
+    }
+  );
+
+  t.test(
+    'Should return components template rendered for production in human readable format',
+    async (t) => {
+      t.plan(1);
+
+      t.same(await t.context.tr.humanReadable('components.js', 'production'), [
+        {
+          destination: {},
+          content: 'replication: 5\n',
+        },
+        {
+          destination: {},
+          content: 'size: 20\n',
+        },
+      ]);
     }
   );
 });
