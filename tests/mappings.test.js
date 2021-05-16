@@ -30,7 +30,10 @@ tap.test('Render template', async (t) => {
 
   t.test('Should return an invalid json', async (t) => {
     t.plan(1);
-    t.rejects(t.context.ms.render('no_json.njk', context));
+    t.rejects(
+      t.context.ms.render('no_json.njk', context),
+      new Error('Failed to render no_json.njk, invalid json found')
+    );
   });
 
   t.test('Should return the context', async (t) => {

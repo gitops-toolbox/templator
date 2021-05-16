@@ -37,13 +37,13 @@ exports.builder = (yargs) => {
 
 exports.handler = async (args) => {
   const templator = new Templator(args.baseDir, args);
-  console.log(args.h);
+
   if (args.h) {
     const hm = await templator.humanReadable(
       args.mapping,
       args.contextSelector
     );
-    console.log(hm);
+
     for (const location of hm) {
       if (
         !lodash.isUndefined(args.limitTo) &&
@@ -51,11 +51,13 @@ exports.handler = async (args) => {
       ) {
         continue;
       }
+
       if (!args.hideHeaders) {
         console.log('===============================================');
         console.log(JSON.stringify(location.destination));
         console.log('===============================================');
       }
+
       console.log(location.content);
     }
   } else {
