@@ -1,7 +1,7 @@
 {
   "name": "@gitops-toolbox/templator",
   "version": "1.0.0",
-  "description": "",
+  "description": "Given data, template and destination, generates configuration",
   "main": "lib/index.js",
   "scripts": {
     "test": "tap",
