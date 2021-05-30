@@ -1,3 +1,5 @@
+const path = require('path');
+
 exports.expectedContext = {
   development: {
     environment: 'development',
@@ -28,4 +30,7 @@ exports.expectedContext = {
   },
 };
 
-exports.existingConfigDir = './tests/fixtures/base';
+exports.existingConfigDir = path.resolve(
+  process.cwd(),
+  './tests/fixtures/base'
+);

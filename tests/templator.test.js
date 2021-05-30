@@ -19,10 +19,48 @@ tap.test('Given a destination template and a context', (t) => {
           {
             template: 'components/database.njk',
             contextSelector: 'components.database',
-            destination: {},
+            destinations: [],
             renderedTemplate: 'size: 5\n',
+            tags: {},
           },
         ],
+      });
+    }
+  );
+
+  t.test(
+    'Should return components mapping rendered for production',
+    async (t) => {
+      t.plan(1);
+
+      t.same(await t.context.tr.renderMapping('components.js', 'production'), {
+        mapping: {
+          locations: [
+            {
+              template: 'components/application.njk',
+              contextSelector: 'components.application',
+              destinations: [],
+              tags: {},
+            },
+            {
+              template: 'components/database.njk',
+              contextSelector: 'components.database',
+              destinations: [],
+              tags: {},
+            },
+          ],
+        },
+        context: {
+          environment: 'production',
+          components: {
+            application: {
+              replicas: 5,
+            },
+            database: {
+              size: 20,
+            },
+          },
+        },
       });
     }
   );
@@ -37,14 +75,16 @@ tap.test('Given a destination template and a context', (t) => {
           {
             template: 'components/application.njk',
             contextSelector: 'components.application',
-            destination: {},
+            destinations: [],
             renderedTemplate: 'replication: 5\n',
+            tags: {},
           },
           {
             template: 'components/database.njk',
             contextSelector: 'components.database',
-            destination: {},
+            destinations: [],
             renderedTemplate: 'size: 20\n',
+            tags: {},
           },
         ],
       });
@@ -66,24 +106,6 @@ tap.test('Given a destination template and a context', (t) => {
         t.context.tr.render('no_contextSelector.js', 'production'),
         expectedError
       );
-    }
-  );
-
-  t.test(
-    'Should return components template rendered for production in human readable format',
-    async (t) => {
-      t.plan(1);
-
-      t.same(await t.context.tr.humanReadable('components.js', 'production'), [
-        {
-          destination: {},
-          content: 'replication: 5\n',
-        },
-        {
-          destination: {},
-          content: 'size: 20\n',
-        },
-      ]);
     }
   );
 });

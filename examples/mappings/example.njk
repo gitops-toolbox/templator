@@ -3,14 +3,15 @@
 {% set comma = joiner() %}
 {
     "locations": [
-    {%- for component, data in components %}
+    {%- for component, data in context.components %}
         {{comma()}}{
             "template": "context.njk",
             "contextSelector": "components.{{ component }}",
-            "destination": {
+            "destinations": [{
                 "type": "github",
-                "repo": "LucaLanziani/test"
-            }
+                "repo": "LucaLanziani/{{ component }}"
+            }],
+            "tags": ["{{ component }}"]
         }
     {%- endfor %}
     ]

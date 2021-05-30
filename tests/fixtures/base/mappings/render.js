@@ -1,3 +1,10 @@
 exports.render = (data) => {
-  return data.context;
+  return {
+    locations: [
+      {
+        template: `templates/${data.context['1']}`,
+        contextSelector: '1',
+      },
+    ],
+  };
 };

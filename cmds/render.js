@@ -12,8 +12,9 @@ exports.builder = (yargs) => {
       describe: 'name of the template to render',
       type: 'string',
     })
-    .option('context-selector', {
+    .positional('context-selector', {
       describe: 'context slice, path can be passed as x.y.z or ["x", "y", "z"]',
+      default: '.',
       coerce: (param) => tryJSONParse(param),
     })
     .option('human-readable', {
@@ -26,12 +27,17 @@ exports.builder = (yargs) => {
       describe: 'Hide the header from the human readable output',
       type: 'boolean',
       default: false,
-      implies: 'human-readable',
+      implies: 'limit-to',
     })
     .options('limit-to', {
       describe: 'Only show file with a given header',
       type: 'string',
       implies: 'human-readable',
+    })
+    .options('mapping-only', {
+      describe: 'Only render mapping, not templates, useful to debug issues',
+      type: 'boolean',
+      default: false,
     });
 };
 
@@ -39,29 +45,35 @@ exports.handler = async (args) => {
   const templator = new Templator(args.baseDir, args);
 
   if (args.h) {
-    const hm = await templator.humanReadable(
-      args.mapping,
-      args.contextSelector
-    );
+    const hm = await templator.render(args.mapping, args.contextSelector);
 
-    for (const location of hm) {
+    for (const item of hm.locations) {
       if (
         !lodash.isUndefined(args.limitTo) &&
-        !lodash.isEqual(JSON.parse(args.limitTo), location.destination)
+        !item.tags.includes(args.limitTo)
       ) {
         continue;
       }
 
       if (!args.hideHeaders) {
-        console.log('===============================================');
-        console.log(JSON.stringify(location.destination));
-        console.log('===============================================');
+        console.log('---');
+        console.log(
+          JSON.stringify({ destinations: item.destinations, tags: item.tags })
+        );
+        console.log('---');
       }
 
-      console.log(location.content);
+      console.log(item.renderedTemplate);
     }
-  } else {
-    const render = await templator.render(args.mapping, args.contextSelector);
-    console.log(JSON.stringify(render, null, 2));
+    return;
   }
+
+  let render;
+  if (args.mappingOnly) {
+    render = await templator.renderMapping(args.mapping, args.contextSelector);
+  } else {
+    render = await templator.render(args.mapping, args.contextSelector);
+  }
+
+  console.log(JSON.stringify(render, null, 2));
 };

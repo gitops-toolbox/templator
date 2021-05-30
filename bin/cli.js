@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const yargs = require('yargs');
+const path = require('path');
 
 yargs
   .env('TP')
@@ -8,6 +9,9 @@ yargs
     desc: 'path where to find the config',
     type: 'string',
     default: '.',
+    coerce: (base) => {
+      return path.resolve(process.cwd(), base);
+    },
   })
   .option('context-dir', {
     alias: 'config-dir',

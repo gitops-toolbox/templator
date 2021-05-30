@@ -3,11 +3,10 @@
 const Utils = require('../lib/utils');
 const _ = require('lodash');
 const ConfigParser = require('@gitops-toolbox/config-loader');
-const Log = require('debug')('t:showContext');
 
-exports.command = 'showContext [context-selector]';
+exports.command = 'context [context-selector]';
 
-exports.desc = `Output the rendered template`;
+exports.desc = `Output the full context`;
 
 exports.builder = (yargs) => {
   yargs

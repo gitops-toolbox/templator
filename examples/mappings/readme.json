@@ -1,0 +1,15 @@
+{
+  "locations": [
+    {
+      "template": "README.md",
+      "contextSelector": ".",
+      "destinations": [
+        {
+          "type": "filesystem",
+          "baseDir": "..",
+          "path": "README.md"
+        }
+      ]
+    }
+  ]
+}

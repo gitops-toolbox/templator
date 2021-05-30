@@ -1,6 +1,6 @@
 const tap = require('tap');
 const Mappings = require('../lib/mappings');
-const existingConfigDir = './tests/fixtures/base';
+const { existingConfigDir } = require('./data');
 const context = { 1: 1 };
 
 tap.test('Render template', async (t) => {
@@ -23,9 +23,18 @@ tap.test('Render template', async (t) => {
     t.rejects(t.context.ms.render('text_file.js', context));
   });
 
-  t.test('Should return the context', async (t) => {
+  t.test('Should return a valid mapping', async (t) => {
     t.plan(1);
-    t.equal(await t.context.ms.render('render.js', context), context);
+    t.same(await t.context.ms.render('render.js', context), {
+      locations: [
+        {
+          template: 'templates/1',
+          contextSelector: '1',
+          tags: {},
+          destinations: [],
+        },
+      ],
+    });
   });
 
   t.test('Should return an invalid json', async (t) => {
@@ -36,8 +45,17 @@ tap.test('Render template', async (t) => {
     );
   });
 
-  t.test('Should return the context', async (t) => {
+  t.test('Should return a valid mapping', async (t) => {
     t.plan(1);
-    t.same(await t.context.ms.render('render.njk', context), context);
+    t.same(await t.context.ms.render('render.njk', context), {
+      locations: [
+        {
+          template: 'templates/1',
+          contextSelector: '1',
+          tags: {},
+          destinations: [],
+        },
+      ],
+    });
   });
 });

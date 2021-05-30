@@ -8,7 +8,7 @@ exports.render = function (data) {
     locations.push({
       template: `components/${component}.njk`,
       contextSelector: `components.${component}`,
-      destination: {},
+      destinations: [],
     });
   }
 

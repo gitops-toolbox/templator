@@ -1,10 +1,18 @@
 const Templates = require('../lib/templates');
-const existingConfigDir = './tests/fixtures/base';
+const { existingConfigDir } = require('./data');
 const tap = require('tap');
 const context = { 1: 1 };
 
 tap.test('Render template', (t) => {
-  t.plan(2);
+  t.plan(3);
+
+  t.test('Should throw if base folder is not absolute', async (t) => {
+    t.plan(1);
+    t.throws(
+      () => new Templates('./'),
+      new Error('Base should be an absolute path')
+    );
+  });
 
   t.test('Should return the stringified context', async (t) => {
     t.plan(1);
