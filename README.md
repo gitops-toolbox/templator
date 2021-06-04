@@ -28,7 +28,9 @@ Each mapping files should return a valid object or json with the following conte
       "destinations": [                         # Optional
         { "type": "<destination-type>", ... }
       ]
-
+      "tags": {
+        "name": "value"
+      }
     }
   ]
 }
@@ -94,9 +96,9 @@ Using context-selector as json
             "repo": "LucaLanziani/application"
           }
         ],
-        "tags": [
-          "application"
-        ]
+        "tags": {
+          "type": "application"
+        }
       },
       {
         "template": "context.njk",
@@ -107,9 +109,9 @@ Using context-selector as json
             "repo": "LucaLanziani/database"
           }
         ],
-        "tags": [
-          "database"
-        ]
+        "tags": {
+          "type": "database"
+        }
       }
     ]
   },
@@ -141,9 +143,9 @@ Using context-selector as json
           "repo": "LucaLanziani/application"
         }
       ],
-      "tags": [
-        "application"
-      ],
+      "tags": {
+        "type": "application"
+      },
       "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/example.njk\n\n{\"name\":\"templator\"}\n"
     },
     {
@@ -155,9 +157,9 @@ Using context-selector as json
           "repo": "LucaLanziani/database"
         }
       ],
-      "tags": [
-        "database"
-      ],
+      "tags": {
+        "type": "database"
+      },
       "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/example.njk\n\n{\"name\":\"Database\"}\n"
     }
   ]
@@ -169,7 +171,7 @@ Using context-selector as json
 ```
 > ./bin/cli.js -b examples render example.njk -h # renderHumanReadable
 ---
-{"destinations":[{"type":"github","repo":"LucaLanziani/application"}],"tags":["application"]}
+{"destinations":[{"type":"github","repo":"LucaLanziani/application"}],"tags":{"type":"application"}}
 ---
 # Template file templates/context.njk
 # Mapping file mappings/example.njk
@@ -177,7 +179,7 @@ Using context-selector as json
 {"name":"templator"}
 
 ---
-{"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":["database"]}
+{"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":{"type":"database"}}
 ---
 # Template file templates/context.njk
 # Mapping file mappings/example.njk
@@ -189,9 +191,9 @@ Using context-selector as json
 ## Render human readable limit to one file
 
 ```
-> ./bin/cli.js -b examples render example.njk -h --limit-to database # renderHumanReadableLimitTo
+> ./bin/cli.js -b examples render example.njk -h --limit-to '{"type": "database"}' # renderHumanReadableLimitTo
 ---
-{"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":["database"]}
+{"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":{"type":"database"}}
 ---
 # Template file templates/context.njk
 # Mapping file mappings/example.njk
@@ -203,7 +205,7 @@ Using context-selector as json
 ## Render human readable limit to one file and hide header
 
 ```
-> ./bin/cli.js -b examples render example.njk -h --limit-to database --hide-headers # renderFileContent
+> ./bin/cli.js -b examples render example.njk -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
 # Template file templates/context.njk
 # Mapping file mappings/example.njk
 
@@ -222,12 +224,12 @@ Commands:
   cli.js render <mapping> [context-selector]  Output the rendered template
 
 Options:
-      --help                       Show help  [boolean]
-      --version                    Show version number  [boolean]
-  -b, --base-dir                   path where to find the config  [string] [default: "."]
-      --context-dir, --config-dir  directory name of the context folder  [string] [default: "context"]
-      --mappings-dir               directory where to search for mappings  [string] [default: "mappings"]
-      --templates-dir              directory where to find the templates  [string] [default: "templates"]
+      --help           Show help  [boolean]
+      --version        Show version number  [boolean]
+  -b, --base-dir       path where to find the config  [string] [default: "."]
+      --context-dir    directory name of the context folder  [string] [default: "context"]
+      --mappings-dir   directory where to search for mappings  [string] [default: "mappings"]
+      --templates-dir  directory where to find the templates  [string] [default: "templates"]
 
 Not enough non-option arguments: got 0, need at least 1
 ```

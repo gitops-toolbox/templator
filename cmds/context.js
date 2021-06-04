@@ -23,8 +23,9 @@ exports.builder = (yargs) => {
 };
 
 exports.handler = async function (args) {
-  const context = await new ConfigParser(args.baseDir, args).fromSelector(
-    args.contextSelector
-  );
+  const context = await new ConfigParser(args.baseDir, {
+    configDir: args.contextDir,
+    ...args,
+  }).fromSelector(args.contextSelector);
   console.log(JSON.stringify(context, null, 2));
 };

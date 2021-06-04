@@ -30,9 +30,10 @@ exports.builder = (yargs) => {
       implies: 'limit-to',
     })
     .options('limit-to', {
-      describe: 'Only show file with a given header',
+      describe: 'Only show file with a give set of tags',
       type: 'string',
       implies: 'human-readable',
+      coerce: (param) => JSON.parse(param),
     })
     .options('mapping-only', {
       describe: 'Only render mapping, not templates, useful to debug issues',
@@ -50,7 +51,7 @@ exports.handler = async (args) => {
     for (const item of hm.locations) {
       if (
         !lodash.isUndefined(args.limitTo) &&
-        !item.tags.includes(args.limitTo)
+        !lodash.isMatch(item.tags, args.limitTo)
       ) {
         continue;
       }

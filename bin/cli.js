@@ -14,7 +14,6 @@ yargs
     },
   })
   .option('context-dir', {
-    alias: 'config-dir',
     type: 'string',
     describe: 'directory name of the context folder',
     default: 'context',
