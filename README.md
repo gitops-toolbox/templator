@@ -83,7 +83,7 @@ Using context-selector as json
 ## Render mapping
 
 ```
-> ./bin/cli.js -b examples render --mapping-only example.njk # renderMapping
+> ./bin/cli.js -b examples generate --just-mapping nested/example.njk # renderMapping
 {
   "mapping": {
     "locations": [
@@ -131,7 +131,7 @@ Using context-selector as json
 ## Render template
 
 ```
-> ./bin/cli.js -b examples render example.njk # renderTemplate
+> ./bin/cli.js -b examples generate nested/example.njk # renderTemplate
 {
   "locations": [
     {
@@ -146,7 +146,7 @@ Using context-selector as json
       "tags": {
         "type": "application"
       },
-      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/example.njk\n\n{\"name\":\"templator\"}\n"
+      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"templator\"}\n"
     },
     {
       "template": "context.njk",
@@ -160,7 +160,7 @@ Using context-selector as json
       "tags": {
         "type": "database"
       },
-      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/example.njk\n\n{\"name\":\"Database\"}\n"
+      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
     }
   ]
 }
@@ -169,12 +169,12 @@ Using context-selector as json
 ## Render human readable
 
 ```
-> ./bin/cli.js -b examples render example.njk -h # renderHumanReadable
+> ./bin/cli.js -b examples generate nested/example.njk -h # renderHumanReadable
 ---
 {"destinations":[{"type":"github","repo":"LucaLanziani/application"}],"tags":{"type":"application"}}
 ---
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"templator"}
 
@@ -182,7 +182,7 @@ Using context-selector as json
 {"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":{"type":"database"}}
 ---
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
 
@@ -191,12 +191,12 @@ Using context-selector as json
 ## Render human readable limit to one file
 
 ```
-> ./bin/cli.js -b examples render example.njk -h --limit-to '{"type": "database"}' # renderHumanReadableLimitTo
+> ./bin/cli.js -b examples generate nested/example.njk -h --limit-to '{"type": "database"}' # renderHumanReadableLimitTo
 ---
 {"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":{"type":"database"}}
 ---
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
 
@@ -205,9 +205,9 @@ Using context-selector as json
 ## Render human readable limit to one file and hide header
 
 ```
-> ./bin/cli.js -b examples render example.njk -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
+> ./bin/cli.js -b examples generate nested/example.njk -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
 
@@ -220,8 +220,8 @@ Using context-selector as json
 cli.js <command>
 
 Commands:
-  cli.js context [context-selector]           Output the full context
-  cli.js render <mapping> [context-selector]  Output the rendered template
+  cli.js context [context-selector]             Output the full context
+  cli.js generate <mapping> [context-selector]  Output the rendered templates
 
 Options:
       --help           Show help  [boolean]
