@@ -18,7 +18,23 @@ function getCommand(comment) {
 }
 
 tap.test('Give the readme examples', (t) => {
-  t.plan(9);
+  t.plan(11);
+
+  t.test('Sohuld list mappings', (t) => {
+    t.plan(1);
+    const [command, output] = getCommand('# listMappings');
+    const result = execSync(command, { encoding: 'utf-8' });
+
+    t.same(result, output);
+  });
+
+  t.test('Sohuld list templates', (t) => {
+    t.plan(1);
+    const [command, output] = getCommand('# listTemplates');
+    const result = execSync(command, { encoding: 'utf-8' });
+
+    t.same(result, output);
+  });
 
   t.test('Should show help', (t) => {
     t.plan(1);

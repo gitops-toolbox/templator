@@ -41,8 +41,28 @@ Each mapping files should return a valid object or json with the following conte
 The templates folder (default to `templates`).
 The templates will be rendered by the mappings using [Nunjucks](nunjucks).
 
-
 # Examples
+
+## List templates
+
+```
+> ./bin/cli.js -b examples list templates # listTemplates
+[
+  "context.njk"
+]
+```
+
+## list mappings
+
+```
+> ./bin/cli.js -b examples list mappings # listMappings
+[
+  "example.js",
+  "example.json",
+  "readme.json",
+  "nested/example.njk"
+]
+```
 
 ## Show context
 
@@ -222,6 +242,7 @@ cli.js <command>
 Commands:
   cli.js context [context-selector]             Output the full context
   cli.js generate <mapping> [context-selector]  Output the rendered templates
+  cli.js list <target>                          List one between templates and mappings
 
 Options:
       --help           Show help  [boolean]

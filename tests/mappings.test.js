@@ -5,9 +5,16 @@ const context = { 1: 1 };
 
 tap.test('Mappings', async (t) => {
   t.test('When an invalid configDir is passed', async (t) => {
-    t.plan(1);
+    t.plan(2);
 
     t.beforeEach((t) => {});
+
+    t.test('List should error with ENOENT', async (t) => {
+      const mapping = new Mappings('/nonExistingFolder');
+      t.throws(() => {
+        mapping.list();
+      }, new Error("ENOENT: no such file or directory, scandir '/nonExistingFolder/mappings'"));
+    });
 
     t.test('should reject on render', async (t) => {
       const mapping = new Mappings('/nonExistingFolder');
