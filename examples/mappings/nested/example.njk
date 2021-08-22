@@ -8,8 +8,11 @@
             "template": "context.njk",
             "contextSelector": "components.{{ component }}",
             "destinations": [{
-                "type": "github",
-                "repo": "LucaLanziani/{{ component }}"
+                "type": "tp-github",
+                "params": {
+                    "repo": "myorg/{{environment}}",
+                    "filepath": "{{component}}.json"
+                }
             }],
             "tags": {"type": "{{ component }}"}
         }

@@ -1,8 +1,6 @@
 {
+  "environment": "production",
   "components": {
-    "application": {
-      "name": "templator"
-    },
     "database": {
       "name": "Database"
     }
