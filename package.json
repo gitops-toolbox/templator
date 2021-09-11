@@ -24,5 +24,8 @@
   "devDependencies": {
     "prettier": "2.2.1",
     "tap": "^15.0.6"
+  },
+  "tap": {
+    "check-coverage": false
   }
 }
