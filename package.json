@@ -8,6 +8,10 @@
     "wtest": "tap -w",
     "prettier": "prettier check ."
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitops-toolbox/templator.git"
+  },
   "author": "Luca Lanziani",
   "license": "ISC",
   "dependencies": {
