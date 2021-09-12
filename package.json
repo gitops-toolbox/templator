@@ -17,7 +17,7 @@
   "dependencies": {
     "@gitops-toolbox/config-loader": "0.0.3",
     "colors": "^1.4.0",
-    "debug": "^4.3.1",
+    "debug": "^4.3.2",
     "lodash": "^4.17.20",
     "nunjucks": "^3.2.2",
     "yargs": "^16.2.0"
