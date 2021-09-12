@@ -2,9 +2,9 @@ const lodash = require('lodash');
 const Templator = require('../lib/templator');
 const { tryJSONParse } = require('../lib/utils');
 
-exports.command = 'render <mapping> [context-selector]';
+exports.command = 'generate <mapping> [context-selector]';
 
-exports.desc = 'Output the rendered template';
+exports.desc = 'Output the rendered templates';
 
 exports.builder = (yargs) => {
   yargs
@@ -35,8 +35,8 @@ exports.builder = (yargs) => {
       implies: 'human-readable',
       coerce: (param) => JSON.parse(param),
     })
-    .options('mapping-only', {
-      describe: 'Only render mapping, not templates, useful to debug issues',
+    .options('just-mapping', {
+      describe: 'Just render mapping, not templates, useful to debug issues',
       type: 'boolean',
       default: false,
     });
@@ -70,7 +70,7 @@ exports.handler = async (args) => {
   }
 
   let render;
-  if (args.mappingOnly) {
+  if (args.justMapping) {
     render = await templator.renderMapping(args.mapping, args.contextSelector);
   } else {
     render = await templator.render(args.mapping, args.contextSelector);

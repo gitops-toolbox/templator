@@ -1,0 +1,11 @@
+{
+  "environment": "development",
+  "components": {
+    "application": {
+      "name": "templator"
+    },
+    "database": {
+      "name": "Database"
+    }
+  }
+}

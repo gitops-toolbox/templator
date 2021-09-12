@@ -41,8 +41,28 @@ Each mapping files should return a valid object or json with the following conte
 The templates folder (default to `templates`).
 The templates will be rendered by the mappings using [Nunjucks](nunjucks).
 
-
 # Examples
+
+## List templates
+
+```
+> ./bin/cli.js -b examples list templates # listTemplates
+[
+  "context.njk"
+]
+```
+
+## list mappings
+
+```
+> ./bin/cli.js -b examples list mappings # listMappings
+[
+  "example.js",
+  "example.json",
+  "readme.json",
+  "nested/example.njk"
+]
+```
 
 ## Show context
 
@@ -51,12 +71,23 @@ Full context
 ```
 > ./bin/cli.js -b examples context # showContext
 {
-  "components": {
-    "application": {
-      "name": "templator"
-    },
-    "database": {
-      "name": "Database"
+  "dev": {
+    "environment": "development",
+    "components": {
+      "application": {
+        "name": "templator"
+      },
+      "database": {
+        "name": "Database"
+      }
+    }
+  },
+  "prd": {
+    "environment": "production",
+    "components": {
+      "database": {
+        "name": "Database"
+      }
     }
   }
 }
@@ -65,7 +96,7 @@ Full context
 Using context-selector
 
 ```
-> ./bin/cli.js -b examples context components.application # showContextSelector
+> ./bin/cli.js -b examples context dev.components.application # showContextSelector
 {
   "name": "templator"
 }
@@ -74,7 +105,7 @@ Using context-selector
 Using context-selector as json
 
 ```
-> ./bin/cli.js -b examples context '["components", "application"]' # showContextSelectorJson
+> ./bin/cli.js -b examples context '["dev", "components", "application"]' # showContextSelectorJson
 {
   "name": "templator"
 }
@@ -83,7 +114,7 @@ Using context-selector as json
 ## Render mapping
 
 ```
-> ./bin/cli.js -b examples render --mapping-only example.njk # renderMapping
+> ./bin/cli.js -b examples generate --just-mapping nested/example.njk dev # renderMapping
 {
   "mapping": {
     "locations": [
@@ -92,8 +123,11 @@ Using context-selector as json
         "contextSelector": "components.application",
         "destinations": [
           {
-            "type": "github",
-            "repo": "LucaLanziani/application"
+            "type": "tp-github",
+            "params": {
+              "repo": "myorg/development",
+              "filepath": "application.json"
+            }
           }
         ],
         "tags": {
@@ -105,8 +139,11 @@ Using context-selector as json
         "contextSelector": "components.database",
         "destinations": [
           {
-            "type": "github",
-            "repo": "LucaLanziani/database"
+            "type": "tp-github",
+            "params": {
+              "repo": "myorg/development",
+              "filepath": "database.json"
+            }
           }
         ],
         "tags": {
@@ -116,6 +153,7 @@ Using context-selector as json
     ]
   },
   "context": {
+    "environment": "development",
     "components": {
       "application": {
         "name": "templator"
@@ -131,7 +169,7 @@ Using context-selector as json
 ## Render template
 
 ```
-> ./bin/cli.js -b examples render example.njk # renderTemplate
+> ./bin/cli.js -b examples generate nested/example.njk dev # renderTemplate
 {
   "locations": [
     {
@@ -139,28 +177,34 @@ Using context-selector as json
       "contextSelector": "components.application",
       "destinations": [
         {
-          "type": "github",
-          "repo": "LucaLanziani/application"
+          "type": "tp-github",
+          "params": {
+            "repo": "myorg/development",
+            "filepath": "application.json"
+          }
         }
       ],
       "tags": {
         "type": "application"
       },
-      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/example.njk\n\n{\"name\":\"templator\"}\n"
+      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"templator\"}\n"
     },
     {
       "template": "context.njk",
       "contextSelector": "components.database",
       "destinations": [
         {
-          "type": "github",
-          "repo": "LucaLanziani/database"
+          "type": "tp-github",
+          "params": {
+            "repo": "myorg/development",
+            "filepath": "database.json"
+          }
         }
       ],
       "tags": {
         "type": "database"
       },
-      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/example.njk\n\n{\"name\":\"Database\"}\n"
+      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
     }
   ]
 }
@@ -169,20 +213,20 @@ Using context-selector as json
 ## Render human readable
 
 ```
-> ./bin/cli.js -b examples render example.njk -h # renderHumanReadable
+> ./bin/cli.js -b examples generate nested/example.njk dev -h # renderHumanReadable
 ---
-{"destinations":[{"type":"github","repo":"LucaLanziani/application"}],"tags":{"type":"application"}}
+{"destinations":[{"type":"tp-github","params":{"repo":"myorg/development","filepath":"application.json"}}],"tags":{"type":"application"}}
 ---
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"templator"}
 
 ---
-{"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":{"type":"database"}}
+{"destinations":[{"type":"tp-github","params":{"repo":"myorg/development","filepath":"database.json"}}],"tags":{"type":"database"}}
 ---
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
 
@@ -191,12 +235,12 @@ Using context-selector as json
 ## Render human readable limit to one file
 
 ```
-> ./bin/cli.js -b examples render example.njk -h --limit-to '{"type": "database"}' # renderHumanReadableLimitTo
+> ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' # renderHumanReadableLimitTo
 ---
-{"destinations":[{"type":"github","repo":"LucaLanziani/database"}],"tags":{"type":"database"}}
+{"destinations":[{"type":"tp-github","params":{"repo":"myorg/development","filepath":"database.json"}}],"tags":{"type":"database"}}
 ---
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
 
@@ -205,9 +249,9 @@ Using context-selector as json
 ## Render human readable limit to one file and hide header
 
 ```
-> ./bin/cli.js -b examples render example.njk -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
+> ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
 # Template file templates/context.njk
-# Mapping file mappings/example.njk
+# Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
 
@@ -220,8 +264,9 @@ Using context-selector as json
 cli.js <command>
 
 Commands:
-  cli.js context [context-selector]           Output the full context
-  cli.js render <mapping> [context-selector]  Output the rendered template
+  cli.js context [context-selector]             Output the full context
+  cli.js generate <mapping> [context-selector]  Output the rendered templates
+  cli.js list <target>                          List one between templates and mappings
 
 Options:
       --help           Show help  [boolean]

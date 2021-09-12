@@ -8,10 +8,15 @@
     "wtest": "tap -w",
     "prettier": "prettier check ."
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gitops-toolbox/templator.git"
+  },
+  "author": "Luca Lanziani",
   "license": "ISC",
   "dependencies": {
-    "@gitops-toolbox/config-loader": "0.0.2",
+    "@gitops-toolbox/config-loader": "0.0.3",
+    "colors": "^1.4.0",
     "debug": "^4.3.1",
     "lodash": "^4.17.20",
     "nunjucks": "^3.2.2",
@@ -23,5 +28,8 @@
   "devDependencies": {
     "prettier": "2.2.1",
     "tap": "^15.0.6"
+  },
+  "tap": {
+    "check-coverage": false
   }
 }

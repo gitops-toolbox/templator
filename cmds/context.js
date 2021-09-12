@@ -10,10 +10,6 @@ exports.desc = `Output the full context`;
 
 exports.builder = (yargs) => {
   yargs
-    .positional('template', {
-      describe: 'name of the template to render',
-      type: 'string',
-    })
     .option('context-selector', {
       describe: "context slice, path can be passed as x.y.z or ['x', 'y', 'z']",
       coerce: (param) => {
