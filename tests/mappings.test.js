@@ -36,7 +36,7 @@ tap.test('Mappings', async (t) => {
   });
 
   t.test('When a valid configDir is passed', async (t) => {
-    t.plan(5);
+    t.plan(6);
 
     t.beforeEach((t) => {
       t.context.ms = new Mappings(existingConfigDir);
@@ -89,6 +89,13 @@ tap.test('Mappings', async (t) => {
           },
         ],
       });
+    });
+
+    t.test('Should not mutate the context', async (t) => {
+      t.plan(1);
+      const mutable_context = {};
+      await t.context.ms.render('mutates_context.js', mutable_context);
+      t.equal(mutable_context.newProperty, undefined);
     });
   });
 });
