@@ -33,7 +33,7 @@ exports.builder = (yargs) => {
       describe: 'Only show file with a give set of tags',
       type: 'string',
       implies: 'human-readable',
-      coerce: (param) => JSON.parse(param),
+      coerce: (param) => tryJSONParse(param),
     })
     .options('just-mapping', {
       describe: 'Just render mapping, not templates, useful to debug issues',
