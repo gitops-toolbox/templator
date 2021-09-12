@@ -13,7 +13,7 @@
     "url": "git+https://github.com/gitops-toolbox/templator.git"
   },
   "author": "Luca Lanziani",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@gitops-toolbox/config-loader": "0.0.3",
     "colors": "^1.4.0",
