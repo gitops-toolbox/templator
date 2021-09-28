@@ -5,7 +5,7 @@ exports.render = function (data) {
     locations.push({
       template: '<path_component_to_template>',
       contextSelector: `components.${key}`,
-      destinations: [],
+      destination: {},
     });
   }
 

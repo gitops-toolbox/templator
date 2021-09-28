@@ -63,7 +63,7 @@ tap.test('Mappings', async (t) => {
             template: 'templates/1',
             contextSelector: '1',
             tags: {},
-            destinations: [],
+            destination: {},
           },
         ],
       });
@@ -85,7 +85,7 @@ tap.test('Mappings', async (t) => {
             template: 'templates/1',
             contextSelector: '1',
             tags: {},
-            destinations: [],
+            destination: {},
           },
         ],
       });

@@ -3,13 +3,11 @@
     {
       "template": "README.md",
       "contextSelector": ".",
-      "destinations": [
-        {
-          "type": "filesystem",
-          "baseDir": "..",
-          "path": "README.md"
-        }
-      ]
+      "destination": {
+        "type": "filesystem",
+        "baseDir": "..",
+        "path": "README.md"
+      }
     }
   ]
 }

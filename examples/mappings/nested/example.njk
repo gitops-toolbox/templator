@@ -7,13 +7,13 @@
         {{comma()}}{
             "template": "context.njk",
             "contextSelector": "components.{{ component }}",
-            "destinations": [{
+            "destination": {
                 "type": "tp-github",
                 "params": {
                     "repo": "myorg/{{environment}}",
                     "filepath": "{{component}}.json"
                 }
-            }],
+            },
             "tags": {"type": "{{ component }}"}
         }
     {%- endfor %}

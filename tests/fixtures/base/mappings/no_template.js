@@ -7,7 +7,7 @@ exports.render = function (data) {
   for (const component of Object.keys(data.context.components)) {
     locations.push({
       contextSelector: `components.${component}`,
-      destinations: [],
+      destination: {},
     });
   }
 
