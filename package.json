@@ -16,6 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "@gitops-toolbox/config-loader": "0.0.3",
+    "@gitops-toolbox/tpd-github": "0.0.2",
     "colors": "^1.4.0",
     "debug": "^4.3.1",
     "lodash": "^4.17.20",

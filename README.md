@@ -160,7 +160,7 @@ Using context-selector as json
 ## Render template
 
 ```
-> ./bin/cli.js -b examples generate nested/example.njk dev # renderTemplate
+> ./bin/cli.js -b examples generate -j nested/example.njk dev # renderTemplate
 {
   "locations": [
     {
