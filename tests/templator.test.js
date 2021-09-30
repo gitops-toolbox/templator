@@ -19,7 +19,7 @@ tap.test('Given a destination template and a context', (t) => {
           {
             template: 'components/database.njk',
             contextSelector: 'components.database',
-            destinations: [],
+            destination: {},
             renderedTemplate: 'size: 5\n',
             tags: {},
           },
@@ -39,13 +39,13 @@ tap.test('Given a destination template and a context', (t) => {
             {
               template: 'components/application.njk',
               contextSelector: 'components.application',
-              destinations: [],
+              destination: {},
               tags: {},
             },
             {
               template: 'components/database.njk',
               contextSelector: 'components.database',
-              destinations: [],
+              destination: {},
               tags: {},
             },
           ],
@@ -75,14 +75,14 @@ tap.test('Given a destination template and a context', (t) => {
           {
             template: 'components/application.njk',
             contextSelector: 'components.application',
-            destinations: [],
+            destination: {},
             renderedTemplate: 'replication: 5\n',
             tags: {},
           },
           {
             template: 'components/database.njk',
             contextSelector: 'components.database',
-            destinations: [],
+            destination: {},
             renderedTemplate: 'size: 20\n',
             tags: {},
           },

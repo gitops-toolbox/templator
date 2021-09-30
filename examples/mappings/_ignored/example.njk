@@ -7,10 +7,10 @@
         {{comma()}}{
             "template": "context.njk",
             "contextSelector": "components.{{ component }}",
-            "destinations": [{
+            "destination": {
                 "type": "github",
                 "repo": "LucaLanziani/{{ component }}"
-            }],
+            },
             "tags": {"type": "{{ component }}"}
         }
     {%- endfor %}
