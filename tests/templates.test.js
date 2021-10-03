@@ -18,7 +18,7 @@ tap.test('Render template', (t) => {
     t.plan(1);
     const tr = new Templates(existingConfigDir);
 
-    t.same(
+    t.strictSame(
       await tr.render('dump.njk', context),
       JSON.stringify(context, null, 2)
     );
@@ -31,7 +31,7 @@ tap.test('Render template', (t) => {
       templatesDir: 'tmplts',
     });
 
-    t.same(
+    t.strictSame(
       await tr.render('dumps.njk', context),
       JSON.stringify(context, null, 2)
     );
