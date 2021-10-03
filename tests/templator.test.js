@@ -14,7 +14,7 @@ tap.test('Given a destination template and a context', (t) => {
     async (t) => {
       t.plan(1);
 
-      t.same(await t.context.tr.render('components.js', 'development'), {
+      t.strictSame(await t.context.tr.render('components.js', 'development'), {
         locations: [
           {
             template: 'components/database.njk',
@@ -33,35 +33,38 @@ tap.test('Given a destination template and a context', (t) => {
     async (t) => {
       t.plan(1);
 
-      t.same(await t.context.tr.renderMapping('components.js', 'production'), {
-        mapping: {
-          locations: [
-            {
-              template: 'components/application.njk',
-              contextSelector: 'components.application',
-              destination: {},
-              tags: {},
-            },
-            {
-              template: 'components/database.njk',
-              contextSelector: 'components.database',
-              destination: {},
-              tags: {},
-            },
-          ],
-        },
-        context: {
-          environment: 'production',
-          components: {
-            application: {
-              replicas: 5,
-            },
-            database: {
-              size: 20,
+      t.strictSame(
+        await t.context.tr.renderMapping('components.js', 'production'),
+        {
+          mapping: {
+            locations: [
+              {
+                template: 'components/application.njk',
+                contextSelector: 'components.application',
+                destination: {},
+                tags: {},
+              },
+              {
+                template: 'components/database.njk',
+                contextSelector: 'components.database',
+                destination: {},
+                tags: {},
+              },
+            ],
+          },
+          context: {
+            environment: 'production',
+            components: {
+              application: {
+                replicas: 5,
+              },
+              database: {
+                size: 20,
+              },
             },
           },
-        },
-      });
+        }
+      );
     }
   );
 
@@ -70,7 +73,7 @@ tap.test('Given a destination template and a context', (t) => {
     async (t) => {
       t.plan(1);
 
-      t.same(await t.context.tr.render('components.js', 'production'), {
+      t.strictSame(await t.context.tr.render('components.js', 'production'), {
         locations: [
           {
             template: 'components/application.njk',

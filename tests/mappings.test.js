@@ -57,7 +57,7 @@ tap.test('Mappings', async (t) => {
 
     t.test('Should return a valid mapping', async (t) => {
       t.plan(1);
-      t.same(await t.context.ms.render('render.js', context), {
+      t.strictSame(await t.context.ms.render('render.js', context), {
         locations: [
           {
             template: 'templates/1',
@@ -79,7 +79,7 @@ tap.test('Mappings', async (t) => {
 
     t.test('Should return a valid mapping', async (t) => {
       t.plan(1);
-      t.same(await t.context.ms.render('render.njk', context), {
+      t.strictSame(await t.context.ms.render('render.njk', context), {
         locations: [
           {
             template: 'templates/1',
