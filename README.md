@@ -4,6 +4,11 @@ Template your files
 
 This a tool/library born from the necessity of templating multiple files in multiple locations.
 
+
+# Quick start
+
+Head over to [templator-examples](https://github.com/gitops-toolbox/templator-examples) to try the tool
+
 # Terminology
 
 ## Context
