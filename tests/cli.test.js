@@ -18,14 +18,14 @@ function getCommand(comment) {
 }
 
 tap.test('Give the readme examples', (t) => {
-  t.plan(11);
+  t.plan(12);
 
   t.test('Sohuld list mappings', (t) => {
     t.plan(1);
     const [command, output] = getCommand('# listMappings');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Sohuld list templates', (t) => {
@@ -33,7 +33,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# listTemplates');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should show help', (t) => {
@@ -42,7 +42,7 @@ tap.test('Give the readme examples', (t) => {
     const cmd = command.split(' ');
     const result = spawnSync(cmd[0], cmd.slice(1, -2), { encoding: 'utf-8' });
 
-    t.same(result.stderr, output);
+    t.strictSame(result.stderr, output);
   });
 
   t.test('Should return all context in stdout', (t) => {
@@ -50,7 +50,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# showContext');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should return part of context in stdout', (t) => {
@@ -58,7 +58,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# showContextSelector');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should return part of context in stdout', (t) => {
@@ -66,7 +66,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# showContextSelectorJson');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should render the mapping', (t) => {
@@ -74,7 +74,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# renderMapping');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should render the example template', (t) => {
@@ -82,7 +82,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# renderTemplate');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should render the example template in human readable format', (t) => {
@@ -90,7 +90,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# renderHumanReadable');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should render the example template in human readable format', (t) => {
@@ -98,7 +98,7 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# renderHumanReadableLimitTo');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should render the example template in human readable format', (t) => {
@@ -106,6 +106,14 @@ tap.test('Give the readme examples', (t) => {
     const [command, output] = getCommand('# renderFileContent');
     const result = execSync(command, { encoding: 'utf-8' });
 
-    t.same(result, output);
+    t.strictSame(result, output);
+  });
+
+  t.test('Should render the example template and persist', (t) => {
+    t.plan(1);
+    const [command, output] = getCommand('# persist');
+    const result = execSync(command, { encoding: 'utf-8' });
+
+    t.strictSame(result, output);
   });
 });
