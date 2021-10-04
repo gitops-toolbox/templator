@@ -2,7 +2,7 @@
 
 Template your files
 
-This a tool/library born from the necessity of templating multiple files in multiple locations.
+This a tool/library born from the necessity of templating multiple files and pushing them in multiple locations.
 
 
 # Quick start
