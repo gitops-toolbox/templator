@@ -130,6 +130,9 @@ Using context-selector as json
         },
         "tags": {
           "type": "application"
+        },
+        "templateContext": {
+          "name": "templator"
         }
       },
       {
@@ -144,6 +147,9 @@ Using context-selector as json
         },
         "tags": {
           "type": "database"
+        },
+        "templateContext": {
+          "name": "Database"
         }
       }
     ]
@@ -181,6 +187,9 @@ Using context-selector as json
       "tags": {
         "type": "application"
       },
+      "templateContext": {
+        "name": "templator"
+      },
       "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"templator\"}\n"
     },
     {
@@ -195,6 +204,9 @@ Using context-selector as json
       },
       "tags": {
         "type": "database"
+      },
+      "templateContext": {
+        "name": "Database"
       },
       "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
     }
@@ -258,6 +270,9 @@ Using context-selector as json
         "tags": {
           "type": "application"
         },
+        "templateContext": {
+          "name": "templator"
+        },
         "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"templator\"}\n"
       },
       {
@@ -272,6 +287,9 @@ Using context-selector as json
         },
         "tags": {
           "type": "database"
+        },
+        "templateContext": {
+          "name": "Database"
         },
         "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
       }

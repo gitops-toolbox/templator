@@ -22,6 +22,9 @@ tap.test('Given a destination template and a context', (t) => {
             destination: {},
             renderedTemplate: 'size: 5\n',
             tags: {},
+            templateContext: {
+              size: 5,
+            },
           },
         ],
       });
@@ -81,6 +84,9 @@ tap.test('Given a destination template and a context', (t) => {
             destination: {},
             renderedTemplate: 'replication: 5\n',
             tags: {},
+            templateContext: {
+              replicas: 5,
+            },
           },
           {
             template: 'components/database.njk',
@@ -88,6 +94,9 @@ tap.test('Given a destination template and a context', (t) => {
             destination: {},
             renderedTemplate: 'size: 20\n',
             tags: {},
+            templateContext: {
+              size: 20,
+            },
           },
         ],
       });
