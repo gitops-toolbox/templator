@@ -93,6 +93,25 @@ Full context
 }
 ```
 
+Full context in yaml format
+
+```
+> ./bin/cli.js -b examples -o yaml context # showYamlContext
+dev:
+  environment: development
+  components:
+    application:
+      name: templator
+    database:
+      name: Database
+prd:
+  environment: production
+  components:
+    database:
+      name: Database
+
+```
+
 Using context-selector
 
 ```
@@ -171,7 +190,7 @@ Using context-selector as json
 ## Render template
 
 ```
-> ./bin/cli.js -b examples generate -j nested/example.njk dev # renderTemplate
+> ./bin/cli.js -b examples generate -o json nested/example.njk dev # renderTemplate
 {
   "locations": [
     {
@@ -312,7 +331,7 @@ Using context-selector as json
 ## Show help
 
 ```
-> ./bin/cli.js # showHelp
+> ./bin/cli.js --help # showHelp
 cli.js <command>
 
 Commands:
@@ -327,6 +346,4 @@ Options:
       --context-dir    directory name of the context folder  [string] [default: "context"]
       --mappings-dir   directory where to search for mappings  [string] [default: "mappings"]
       --templates-dir  directory where to find the templates  [string] [default: "templates"]
-
-Not enough non-option arguments: got 0, need at least 1
 ```
