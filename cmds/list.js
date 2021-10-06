@@ -1,7 +1,6 @@
 'use strict';
 
 const _ = require('lodash');
-const colors = require('colors/safe');
 const Mappings = require('../lib/mappings');
 const Templates = require('../lib/templates');
 
