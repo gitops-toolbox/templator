@@ -78,11 +78,12 @@ exports.handler = async (args) => {
   const templator = new Templator(args.baseDir, args);
 
   if (args.justMapping) {
-    const mapping = await templator.renderMapping(
+    const { mapping, context } = await templator.renderMapping(
       args.mapping,
       args.contextSelector
     );
-    console.log(JSON.stringify(mapping, null, 2));
+    await templator.expandTemplatesContext(mapping, context);
+    console.log(JSON.stringify({ mapping, context }, null, 2));
     return;
   }
 
