@@ -1,14 +1,14 @@
 const lodash = require('lodash');
 const Templator = require('../lib/templator');
 const persist = require('../lib/persist');
-const { tryJSONParse } = require('../lib/utils');
+const { tryJSONParse, output, commonYargsOptions } = require('../lib/utils');
 
 exports.command = 'generate <mapping> [context-selector]';
 
 exports.desc = 'Output the rendered templates';
 
 exports.builder = (yargs) => {
-  yargs
+  commonYargsOptions(yargs)
     .positional('mapping', {
       describe: 'name of the template to render',
       type: 'string',
@@ -17,12 +17,6 @@ exports.builder = (yargs) => {
       describe: 'context slice, path can be passed as x.y.z or ["x", "y", "z"]',
       default: '.',
       coerce: (param) => tryJSONParse(param),
-    })
-    .option('json-output', {
-      describe: 'output the templates in json format',
-      alias: 'j',
-      type: 'boolean',
-      default: false,
     })
     .option('human-readable', {
       describe: 'output the templates in human readable format',
@@ -83,7 +77,8 @@ exports.handler = async (args) => {
       args.contextSelector
     );
     await templator.expandTemplatesContext(mapping, context);
-    console.log(JSON.stringify({ mapping, context }, null, 2));
+
+    output({ mapping, context }, args.output || 'json');
     return;
   }
 
@@ -93,11 +88,9 @@ exports.handler = async (args) => {
     _human_reabable(render, args);
   }
 
-  if (args.j) {
-    console.log(JSON.stringify(render, null, 2));
-  }
+  output(render, args.output);
 
   if (args.persist) {
-    console.log(JSON.stringify(await persist(render, args), null, 2));
+    output(await persist(render, args), args.output || 'json');
   }
 };

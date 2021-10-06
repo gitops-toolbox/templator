@@ -18,7 +18,7 @@ function getCommand(comment) {
 }
 
 tap.test('Give the readme examples', (t) => {
-  t.plan(12);
+  t.plan(13);
 
   t.test('Sohuld list mappings', (t) => {
     t.plan(1);
@@ -39,15 +39,22 @@ tap.test('Give the readme examples', (t) => {
   t.test('Should show help', (t) => {
     t.plan(1);
     const [command, output] = getCommand('# showHelp');
-    const cmd = command.split(' ');
-    const result = spawnSync(cmd[0], cmd.slice(1, -2), { encoding: 'utf-8' });
+    const result = execSync(command, { encoding: 'utf-8' });
 
-    t.strictSame(result.stderr, output);
+    t.strictSame(result, output);
   });
 
   t.test('Should return all context in stdout', (t) => {
     t.plan(1);
     const [command, output] = getCommand('# showContext');
+    const result = execSync(command, { encoding: 'utf-8' });
+
+    t.strictSame(result, output);
+  });
+
+  t.test('Should return all context in yaml format in stdout', (t) => {
+    t.plan(1);
+    const [command, output] = getCommand('# showYamlContext');
     const result = execSync(command, { encoding: 'utf-8' });
 
     t.strictSame(result, output);
