@@ -1,0 +1,19 @@
+{
+  "locations": [
+    {
+      "template": "TEMPLATE",
+      "contextSelector": "PATH.TO.CONTEXT",
+      "destination": {
+        "type": "echo",
+        "params": {
+          "repo": "ORG/REPO",
+          "filepath": "PATH_ON_REPO"
+        }
+      },
+      "tags": {
+        "KEY1": "VALUE1",
+        "KEY2": "VALUE2"
+      }
+    }
+  ]
+}

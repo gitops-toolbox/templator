@@ -306,6 +306,35 @@ prd:
 }
 ```
 
+## Create a new mapping
+
+```
+./bin/cli.js new mapping.njk # createNjkMapping
+{# You can access the context with 'this' #}
+{# the output should be a valid json #}
+{% set destination = "echo" %}
+{
+  "locations": [
+    {
+      "template": "{{ TEMPLATE }}",
+      "contextSelector": "PATH.TO.{{ this.CONTEXT }}",
+      "destination": {
+        "type": "{{ destination }}",
+        "params": {
+          "repo": "{{this.ORG}}/{{this.REPO}}",
+          "filepath": "PATH_ON_REPO"
+        }
+      },
+      "tags": {
+        "KEY1": "VALUE1",
+        "KEY2": "VALUE2"
+      }
+    }
+  ]
+}
+
+```
+
 ## Show help
 
 ```
@@ -316,6 +345,7 @@ Commands:
   cli.js context [context-selector]             Output the full context
   cli.js generate <mapping> [context-selector]  Output the rendered templates
   cli.js list <target>                          List one between templates and mappings
+  cli.js new <mapping>                          Output a template for the selected mapping
 
 Options:
       --help           Show help  [boolean]

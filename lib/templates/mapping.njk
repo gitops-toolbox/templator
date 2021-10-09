@@ -1,0 +1,22 @@
+{# You can access the context with 'this' #}
+{# the output should be a valid json #}
+{% set destination = "echo" %}
+{
+  "locations": [
+    {
+      "template": "{{ TEMPLATE }}",
+      "contextSelector": "PATH.TO.{{ this.CONTEXT }}",
+      "destination": {
+        "type": "{{ destination }}",
+        "params": {
+          "repo": "{{this.ORG}}/{{this.REPO}}",
+          "filepath": "PATH_ON_REPO"
+        }
+      },
+      "tags": {
+        "KEY1": "VALUE1",
+        "KEY2": "VALUE2"
+      }
+    }
+  ]
+}
