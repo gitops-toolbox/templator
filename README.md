@@ -4,44 +4,22 @@ Template your files
 
 This a tool/library born from the necessity of templating multiple files and pushing them in multiple locations.
 
-
 # Quick start
+
+```bash
+npm i -g @gitops-toolbox/templator
+tp
+```
 
 Head over to [templator-examples](https://github.com/gitops-toolbox/templator-examples) to try the tool
 
-# Terminology
-
-## Context
-
-The data folder (default to `context`) should only contain folders and `json` files.
-
-The data will be merged as for the logic in the `config-loader` library.
-
-## Mappings
-
-The mappings folder (default to `mappings`) can contain `.json` or `.njk` or `.js` mapping files.
-
-Each mapping files should return a valid object or json with the following content:
+# From source code
 
 ```
-{
-  "locations": [
-    {
-      "template": "<template-path>",
-      "contextSelector": "<context-selector>",
-      "tags": {"tagName": "tagValue"},          # Optional
-      "destination": { "type": "<destination-type>", ... }
-    }
-  ]
-}
+git clone https://github.com/gitops-toolbox/templator
+cd templator
+npm i
 ```
-
-## Templates
-
-The templates folder (default to `templates`).
-The templates will be rendered by the mappings using [Nunjucks](nunjucks).
-
-# Examples
 
 ## List templates
 
@@ -66,7 +44,7 @@ The templates will be rendered by the mappings using [Nunjucks](nunjucks).
 
 ## Show context
 
-Full context
+### Full context
 
 ```
 > ./bin/cli.js -b examples context # showContext
@@ -93,7 +71,7 @@ Full context
 }
 ```
 
-Full context in yaml format
+### Full context in yaml format
 
 ```
 > ./bin/cli.js -b examples -o yaml context # showYamlContext
@@ -112,7 +90,7 @@ prd:
 
 ```
 
-Using context-selector
+### Select a part of the context
 
 ```
 > ./bin/cli.js -b examples context dev.components.application # showContextSelector
@@ -121,7 +99,7 @@ Using context-selector
 }
 ```
 
-Using context-selector as json
+### Select a part of the context via json
 
 ```
 > ./bin/cli.js -b examples context '["dev", "components", "application"]' # showContextSelectorJson
@@ -130,7 +108,7 @@ Using context-selector as json
 }
 ```
 
-## Render mapping
+## Render just a mapping
 
 ```
 > ./bin/cli.js -b examples generate --just-mapping nested/example.njk dev # renderMapping
@@ -187,7 +165,7 @@ Using context-selector as json
 }
 ```
 
-## Render template
+## Render in json format
 
 ```
 > ./bin/cli.js -b examples generate -o json nested/example.njk dev # renderTemplate
@@ -233,7 +211,7 @@ Using context-selector as json
 }
 ```
 
-## Render human readable
+## Render in human readable format
 
 ```
 > ./bin/cli.js -b examples generate nested/example.njk dev -h # renderHumanReadable
@@ -255,7 +233,7 @@ Using context-selector as json
 
 ```
 
-## Render human readable limit to one file
+## Render one file in human readable
 
 ```
 > ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' # renderHumanReadableLimitTo
@@ -269,7 +247,18 @@ Using context-selector as json
 
 ```
 
-## Persist templates
+## Render human readable limit to one file and hide header
+
+```
+> ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
+# Template file templates/context.njk
+# Mapping file mappings/nested/example.njk
+
+{"name":"Database"}
+
+```
+
+## Persist the result using the destination type of each template
 
 ```
 ./bin/cli.js -b examples generate nested/example.njk dev --persist # persist
@@ -317,17 +306,6 @@ Using context-selector as json
 }
 ```
 
-## Render human readable limit to one file and hide header
-
-```
-> ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
-# Template file templates/context.njk
-# Mapping file mappings/nested/example.njk
-
-{"name":"Database"}
-
-```
-
 ## Show help
 
 ```
@@ -347,3 +325,49 @@ Options:
       --mappings-dir   directory where to search for mappings  [string] [default: "mappings"]
       --templates-dir  directory where to find the templates  [string] [default: "templates"]
 ```
+
+# The flow
+
+![The flow](examples/flow.gif)
+
+0. run `tp generate <mapping> [context-selector]`
+1. interpolates _Mapping_ and the _selected context_ to generate a __rendered mapping__
+2. Interpolates  __rendered mapping__ with the _selected context_ to get a contexts for each templates
+3. Interpolates _Template A_ with its context to get __rendered Template A__
+4. Interpolates _Template B_ with its context to get __rendered Template B__
+5. Using the destinations in __rendered mapping__ and __rendered Template A__ and __rendered Template B__ generates a github PR
+
+I know it is confusing, you might want to check out the examples
+
+
+# Terminology
+
+## Context
+
+The data folder (default to `context`) should only contain folders and `json` files.
+
+The data will be merged as for the logic in the `config-loader` library.
+
+## Mappings
+
+The mappings folder (default to `mappings`) can contain `.json` or `.njk` or `.js` mapping files.
+
+Each mapping files should return a valid object or json with the following content:
+
+```
+{
+  "locations": [
+    {
+      "template": "<template-path>",
+      "contextSelector": "<context-selector>",
+      "tags": {"tagName": "tagValue"},          # Optional
+      "destination": { "type": "<destination-type>", ... }
+    }
+  ]
+}
+```
+
+## Templates
+
+The templates folder (default to `templates`).
+The templates will be rendered by the mappings using [Nunjucks](nunjucks).
