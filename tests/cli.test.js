@@ -18,7 +18,7 @@ function getCommand(comment) {
 }
 
 tap.test('Give the readme examples', (t) => {
-  t.plan(13);
+  t.plan(14);
 
   t.test('Sohuld list mappings', (t) => {
     t.plan(1);
@@ -119,6 +119,14 @@ tap.test('Give the readme examples', (t) => {
   t.test('Should render the example template and persist', (t) => {
     t.plan(1);
     const [command, output] = getCommand('# persist');
+    const result = execSync(command, { encoding: 'utf-8' });
+
+    t.strictSame(result, output);
+  });
+
+  t.test('Should render the example to generate a njk mapping', (t) => {
+    t.plan(1);
+    const [command, output] = getCommand('# createNjkMapping');
     const result = execSync(command, { encoding: 'utf-8' });
 
     t.strictSame(result, output);
