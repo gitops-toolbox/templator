@@ -1,5 +1,5 @@
-exports.render = function (data) {
-  data.context.newProperty = true;
+exports.render = function (context) {
+  context.newProperty = true;
   const locations = [
     {
       template: 'does not matter',

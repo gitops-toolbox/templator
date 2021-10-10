@@ -1,8 +1,8 @@
-exports.render = (data) => {
+exports.render = (context, meta) => {
   return {
     locations: [
       {
-        template: `templates/${data.context['1']}`,
+        template: `templates/${context['1']}`,
         contextSelector: '1',
       },
     ],

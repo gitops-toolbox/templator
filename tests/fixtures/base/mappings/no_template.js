@@ -2,9 +2,9 @@
  *
  * @param {*} context
  */
-exports.render = function (data) {
+exports.render = function (context) {
   const locations = [];
-  for (const component of Object.keys(data.context.components)) {
+  for (const component of Object.keys(context.components)) {
     locations.push({
       contextSelector: `components.${component}`,
       destination: {},

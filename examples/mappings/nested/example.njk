@@ -1,11 +1,12 @@
 {# You can access the context with 'this' #}
 {# the output should be a valid json #}
 {% set comma = joiner() %}
+{% set templates = ['njk', 'js'] %}
 {
     "locations": [
     {%- for component, data in context.components %}
         {{comma()}}{
-            "template": "context.njk",
+            "template": "context.{{templates[loop.index-1]}}",
             "contextSelector": "components.{{ component }}",
             "destination": {
                 "type": "echo",

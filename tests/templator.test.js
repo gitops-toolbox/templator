@@ -22,8 +22,14 @@ tap.test('Given a destination template and a context', (t) => {
             destination: {},
             renderedTemplate: 'size: 5\n',
             tags: {},
-            templateContext: {
-              size: 5,
+            templateData: {
+              context: {
+                size: 5,
+              },
+              meta: {
+                __mapping: 'mappings/components.js',
+                __template: 'templates/components/database.njk',
+              },
             },
           },
         ],
@@ -84,8 +90,14 @@ tap.test('Given a destination template and a context', (t) => {
             destination: {},
             renderedTemplate: 'replication: 5\n',
             tags: {},
-            templateContext: {
-              replicas: 5,
+            templateData: {
+              context: {
+                replicas: 5,
+              },
+              meta: {
+                __mapping: 'mappings/components.js',
+                __template: 'templates/components/application.njk',
+              },
             },
           },
           {
@@ -94,8 +106,14 @@ tap.test('Given a destination template and a context', (t) => {
             destination: {},
             renderedTemplate: 'size: 20\n',
             tags: {},
-            templateContext: {
-              size: 20,
+            templateData: {
+              context: {
+                size: 20,
+              },
+              meta: {
+                __mapping: 'mappings/components.js',
+                __template: 'templates/components/database.njk',
+              },
             },
           },
         ],

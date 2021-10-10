@@ -76,7 +76,8 @@ exports.handler = async (args) => {
       args.mapping,
       args.contextSelector
     );
-    await templator.expandTemplatesContext(mapping, context);
+
+    await templator.expandTemplatesContext(mapping, context, args.mapping);
 
     output({ mapping, context }, args.output || 'json');
     return;

@@ -26,6 +26,7 @@ npm i
 ```
 > ./bin/cli.js -b examples list templates # listTemplates
 [
+  "context.js",
   "context.njk"
 ]
 ```
@@ -128,12 +129,18 @@ prd:
         "tags": {
           "type": "application"
         },
-        "templateContext": {
-          "name": "templator"
+        "templateData": {
+          "context": {
+            "name": "templator"
+          },
+          "meta": {
+            "__mapping": "mappings/nested/example.njk",
+            "__template": "templates/context.njk"
+          }
         }
       },
       {
-        "template": "context.njk",
+        "template": "context.js",
         "contextSelector": "components.database",
         "destination": {
           "type": "echo",
@@ -145,8 +152,14 @@ prd:
         "tags": {
           "type": "database"
         },
-        "templateContext": {
-          "name": "Database"
+        "templateData": {
+          "context": {
+            "name": "Database"
+          },
+          "meta": {
+            "__mapping": "mappings/nested/example.njk",
+            "__template": "templates/context.js"
+          }
         }
       }
     ]
@@ -165,50 +178,52 @@ prd:
 }
 ```
 
-## Render in json format
+## Render in yaml format
 
 ```
-> ./bin/cli.js -b examples generate -o json nested/example.njk dev # renderTemplate
-{
-  "locations": [
-    {
-      "template": "context.njk",
-      "contextSelector": "components.application",
-      "destination": {
-        "type": "echo",
-        "params": {
-          "repo": "myorg/development",
-          "filepath": "application.json"
-        }
-      },
-      "tags": {
-        "type": "application"
-      },
-      "templateContext": {
-        "name": "templator"
-      },
-      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"templator\"}\n"
-    },
-    {
-      "template": "context.njk",
-      "contextSelector": "components.database",
-      "destination": {
-        "type": "echo",
-        "params": {
-          "repo": "myorg/development",
-          "filepath": "database.json"
-        }
-      },
-      "tags": {
-        "type": "database"
-      },
-      "templateContext": {
-        "name": "Database"
-      },
-      "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
-    }
-  ]
-}
+> ./bin/cli.js -b examples generate -o yaml nested/example.njk dev # renderTemplate
+locations:
+  - template: context.njk
+    contextSelector: components.application
+    destination:
+      type: echo
+      params:
+        repo: myorg/development
+        filepath: application.json
+    tags:
+      type: application
+    templateData:
+      context:
+        name: templator
+      meta:
+        __mapping: mappings/nested/example.njk
+        __template: templates/context.njk
+    renderedTemplate: |
+      # Template file templates/context.njk
+      # Mapping file mappings/nested/example.njk
+
+      {"name":"templator"}
+  - template: context.js
+    contextSelector: components.database
+    destination:
+      type: echo
+      params:
+        repo: myorg/development
+        filepath: database.json
+    tags:
+      type: database
+    templateData:
+      context:
+        name: Database
+      meta:
+        __mapping: mappings/nested/example.njk
+        __template: templates/context.js
+    renderedTemplate: |
+      # Template file templates/context.js
+      # Mapping file mappings/nested/example.njk
+
+      {"name":"Database"}
+
 ```
 
 ## Render in human readable format
@@ -226,7 +241,7 @@ prd:
 ---
 {"destination":{"type":"echo","params":{"repo":"myorg/development","filepath":"database.json"}},"tags":{"type":"database"}}
 ---
-# Template file templates/context.njk
+# Template file templates/context.js
 # Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
@@ -240,7 +255,7 @@ prd:
 ---
 {"destination":{"type":"echo","params":{"repo":"myorg/development","filepath":"database.json"}},"tags":{"type":"database"}}
 ---
-# Template file templates/context.njk
+# Template file templates/context.js
 # Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
@@ -251,7 +266,7 @@ prd:
 
 ```
 > ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
-# Template file templates/context.njk
+# Template file templates/context.js
 # Mapping file mappings/nested/example.njk
 
 {"name":"Database"}
@@ -278,13 +293,19 @@ prd:
         "tags": {
           "type": "application"
         },
-        "templateContext": {
-          "name": "templator"
+        "templateData": {
+          "context": {
+            "name": "templator"
+          },
+          "meta": {
+            "__mapping": "mappings/nested/example.njk",
+            "__template": "templates/context.njk"
+          }
         },
         "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"templator\"}\n"
       },
       {
-        "template": "context.njk",
+        "template": "context.js",
         "contextSelector": "components.database",
         "destination": {
           "type": "echo",
@@ -296,10 +317,16 @@ prd:
         "tags": {
           "type": "database"
         },
-        "templateContext": {
-          "name": "Database"
+        "templateData": {
+          "context": {
+            "name": "Database"
+          },
+          "meta": {
+            "__mapping": "mappings/nested/example.njk",
+            "__template": "templates/context.js"
+          }
         },
-        "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
+        "renderedTemplate": "# Template file templates/context.js\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
       }
     ]
   }
