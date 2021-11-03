@@ -4,7 +4,7 @@ const path = require('path');
 const utils = require('../lib/utils');
 
 tap.test('Utils', async (t) => {
-  t.plan(5);
+  t.plan(6);
 
   t.test('tryJSONParse should return json', async (t) => {
     t.plan(1);
@@ -47,5 +47,24 @@ tap.test('Utils', async (t) => {
     );
 
     t.strictSame(result, {});
+  });
+
+  t.test('parse tags both as json and text format', (t) => {
+    t.plan(3);
+    const expectedResult = {
+      name1: 'value1',
+      name2: 'value2',
+    };
+
+    const result = utils.parseTags('name1=value1,name2=value2');
+    t.strictSame(result, expectedResult, 'can parse plain text');
+
+    const jsonResult = utils.parseTags(
+      '{"name1": "value1", "name2": "value2"}'
+    );
+    t.strictSame(jsonResult, expectedResult, 'can parse json text');
+
+    const emptyResult = utils.parseTags('');
+    t.strictSame(emptyResult, undefined, 'can parse empty text');
   });
 });

@@ -251,7 +251,7 @@ locations:
 ## Render one file in human readable
 
 ```
-> ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' # renderHumanReadableLimitTo
+> ./bin/cli.js -b examples generate nested/example.njk dev -h --filter-by '{"type": "database"}' # renderHumanReadableFilterBy
 ---
 {"destination":{"type":"echo","params":{"repo":"myorg/development","filepath":"database.json"}},"tags":{"type":"database"}}
 ---
@@ -265,7 +265,7 @@ locations:
 ## Render human readable limit to one file and hide header
 
 ```
-> ./bin/cli.js -b examples generate nested/example.njk dev -h --limit-to '{"type": "database"}' --hide-headers # renderFileContent
+> ./bin/cli.js -b examples generate nested/example.njk dev -h --filter-by '{"type": "database"}' --hide-headers # renderFileContent
 # Template file templates/context.js
 # Mapping file mappings/nested/example.njk
 
@@ -329,6 +329,74 @@ locations:
         "renderedTemplate": "# Template file templates/context.js\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n"
       }
     ]
+  }
+}
+```
+
+## Persist the result grouping by a tag
+
+```
+./bin/cli.js -b examples generate nested/example.njk dev --persist --group-by type # groupBy
+{
+  "echo": {
+    "application": {
+      "templates": [
+        {
+          "template": "context.njk",
+          "contextSelector": "components.application",
+          "destination": {
+            "type": "echo",
+            "params": {
+              "repo": "myorg/development",
+              "filepath": "application.json"
+            }
+          },
+          "tags": {
+            "type": "application"
+          },
+          "templateData": {
+            "context": {
+              "name": "templator"
+            },
+            "meta": {
+              "__mapping": "mappings/nested/example.njk",
+              "__template": "templates/context.njk"
+            }
+          },
+          "renderedTemplate": "# Template file templates/context.njk\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"templator\"}\n",
+          "group": "application"
+        }
+      ]
+    },
+    "database": {
+      "templates": [
+        {
+          "template": "context.js",
+          "contextSelector": "components.database",
+          "destination": {
+            "type": "echo",
+            "params": {
+              "repo": "myorg/development",
+              "filepath": "database.json"
+            }
+          },
+          "tags": {
+            "type": "database"
+          },
+          "templateData": {
+            "context": {
+              "name": "Database"
+            },
+            "meta": {
+              "__mapping": "mappings/nested/example.njk",
+              "__template": "templates/context.js"
+            }
+          },
+          "renderedTemplate": "# Template file templates/context.js\n# Mapping file mappings/nested/example.njk\n\n{\"name\":\"Database\"}\n",
+          "group": "database"
+        }
+      ]
+    }
   }
 }
 ```
