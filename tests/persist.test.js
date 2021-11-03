@@ -15,15 +15,18 @@ tap.test('When persisting a mapping', async (t) => {
 
   t.test('Should return an error if destination throws', async (t) => {
     t.plan(1);
-    const result = await persist({
-      locations: [
-        {
-          destination: {
-            type: 'test-destination',
+    const result = await persist(
+      {
+        locations: [
+          {
+            destination: {
+              type: 'test-destination',
+            },
           },
-        },
-      ],
-    });
+        ],
+      },
+      {}
+    );
 
     t.strictSame(result, {
       'test-destination': 'destination.persist is not a function',
@@ -34,15 +37,18 @@ tap.test('When persisting a mapping', async (t) => {
     'Should return an error if destination is not supported',
     async (t) => {
       t.plan(1);
-      const result = await persist({
-        locations: [
-          {
-            destination: {
-              type: 'non-destination',
+      const result = await persist(
+        {
+          locations: [
+            {
+              destination: {
+                type: 'non-destination',
+              },
             },
-          },
-        ],
-      });
+          ],
+        },
+        {}
+      );
 
       t.strictSame(result, {
         'non-destination': 'Destination not supported',
@@ -54,15 +60,18 @@ tap.test('When persisting a mapping', async (t) => {
     'Should run the persist method of the destination object and return results',
     async (t) => {
       t.plan(1);
-      const result = await persist({
-        locations: [
-          {
-            destination: {
-              type: 'echo',
+      const result = await persist(
+        {
+          locations: [
+            {
+              destination: {
+                type: 'echo',
+              },
             },
-          },
-        ],
-      });
+          ],
+        },
+        {}
+      );
 
       t.strictSame(result, {
         echo: {
@@ -77,4 +86,52 @@ tap.test('When persisting a mapping', async (t) => {
       });
     }
   );
+
+  t.test('Should persist destinations by group', async (t) => {
+    t.plan(1);
+    const result = await persist(
+      {
+        locations: [
+          {
+            destination: {
+              type: 'echo',
+            },
+            group: 'group1',
+          },
+          {
+            destination: {
+              type: 'echo',
+            },
+            group: 'group2',
+          },
+        ],
+      },
+      { groupBy: 'test' }
+    );
+
+    t.strictSame(result, {
+      echo: {
+        group1: {
+          templates: [
+            {
+              destination: {
+                type: 'echo',
+              },
+              group: 'group1',
+            },
+          ],
+        },
+        group2: {
+          templates: [
+            {
+              destination: {
+                type: 'echo',
+              },
+              group: 'group2',
+            },
+          ],
+        },
+      },
+    });
+  });
 });

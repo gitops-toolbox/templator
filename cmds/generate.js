@@ -1,7 +1,12 @@
 const lodash = require('lodash');
 const Templator = require('../lib/templator');
 const persist = require('../lib/persist');
-const { tryJSONParse, output, commonYargsOptions } = require('../lib/utils');
+const {
+  tryJSONParse,
+  output,
+  commonYargsOptions,
+  parseTags,
+} = require('../lib/utils');
 
 exports.command = 'generate <mapping> [context-selector]';
 
@@ -28,13 +33,17 @@ exports.builder = (yargs) => {
       describe: 'Hide the header from the human readable output',
       type: 'boolean',
       default: false,
-      implies: 'limit-to',
+      implies: 'filter-by',
     })
-    .options('limit-to', {
+    .options('filter-by', {
       describe: 'Only show file with a give set of tags',
       type: 'string',
       implies: 'human-readable',
-      coerce: (param) => tryJSONParse(param),
+      coerce: (param) => parseTags(param),
+    })
+    .options('group-by', {
+      describe: 'group templates by a set of given tags names',
+      type: 'array',
     })
     .options('just-mapping', {
       describe: 'Just render mapping, not templates, useful to debug issues',
@@ -49,13 +58,6 @@ exports.builder = (yargs) => {
 
 function _human_reabable(render, args) {
   for (const item of render.locations) {
-    if (
-      !lodash.isUndefined(args.limitTo) &&
-      !lodash.isMatch(item.tags, args.limitTo)
-    ) {
-      continue;
-    }
-
     if (!args.hideHeaders) {
       console.log('---');
       console.log(
@@ -83,15 +85,29 @@ exports.handler = async (args) => {
     return;
   }
 
-  const render = await templator.render(args.mapping, args.contextSelector);
+  let render = await templator.render(args.mapping, args.contextSelector);
+
+  if (!lodash.isUndefined(args.filterBy)) {
+    render.locations = lodash.filter(render.locations, (render) =>
+      lodash.isMatch(render.tags, args.filterBy)
+    );
+  }
 
   if (args.h) {
     _human_reabable(render, args);
   }
 
-  output(render, args.output);
+  if (!lodash.isUndefined(args.groupBy)) {
+    for (const location of render.locations) {
+      location.group = Object.values(
+        lodash.pick(location.tags, args.groupBy)
+      ).join('_');
+    }
+  }
 
   if (args.persist) {
     output(await persist(render, args), args.output || 'json');
+  } else {
+    output(render, args.output);
   }
 };
