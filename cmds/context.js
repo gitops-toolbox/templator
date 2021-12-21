@@ -8,19 +8,12 @@ exports.command = 'context [context-selector]';
 exports.desc = `Output the full context`;
 
 exports.builder = (yargs) => {
-  utils
-    .commonYargsOptions(yargs)
-    .option('context-selector', {
-      describe: "context slice, path can be passed as x.y.z or ['x', 'y', 'z']",
-      coerce: (param) => {
-        return utils.tryJSONParse(param);
-      },
-    })
-    .option('output', {
-      describe: 'output the templates in json format',
-      alias: 'o',
-      choices: ['yaml', 'json'],
-    });
+  utils.commonYargsOptions(yargs).positional('context-selector', {
+    describe: "context slice, path can be passed as x.y.z or ['x', 'y', 'z']",
+    coerce: (param) => {
+      return utils.tryJSONParse(param);
+    },
+  });
 };
 
 exports.handler = async function (args) {

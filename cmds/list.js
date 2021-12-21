@@ -10,7 +10,7 @@ exports.command = 'list <target>';
 exports.desc = `List one between templates and mappings`;
 
 exports.builder = (yargs) => {
-  utils.commonYargsOptions(yargs).option('target', {
+  utils.commonYargsOptions(yargs).positional('target', {
     describe: 'one between templates and mappings',
     choices: ['templates', 'mappings'],
   });
