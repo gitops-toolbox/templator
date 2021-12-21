@@ -66,7 +66,7 @@ function _human_reabable(render, args) {
       console.log('---');
     }
 
-    console.log(item.renderedTemplate);
+    console.log(item.template == null ? null : item.renderedTemplate);
   }
 }
 

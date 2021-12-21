@@ -36,8 +36,8 @@ npm i
 ```
 > ./bin/cli.js -b examples list mappings # listMappings
 [
+  "delete_location.json",
   "example.js",
-  "example.json",
   "readme.json",
   "nested/example.njk"
 ]
@@ -178,7 +178,9 @@ prd:
 }
 ```
 
-## Render in yaml format
+## Render Templates
+
+### In yaml format
 
 ```
 > ./bin/cli.js -b examples generate -o yaml nested/example.njk dev # renderTemplate
@@ -226,7 +228,7 @@ locations:
 
 ```
 
-## Render in human readable format
+### In human readable format
 
 ```
 > ./bin/cli.js -b examples generate nested/example.njk dev -h # renderHumanReadable
@@ -248,7 +250,7 @@ locations:
 
 ```
 
-## Render one file in human readable
+### Filter output by tag
 
 ```
 > ./bin/cli.js -b examples generate nested/example.njk dev -h --filter-by '{"type": "database"}' # renderHumanReadableFilterBy
@@ -262,7 +264,7 @@ locations:
 
 ```
 
-## Render human readable limit to one file and hide header
+### Hide the headers
 
 ```
 > ./bin/cli.js -b examples generate nested/example.njk dev -h --filter-by '{"type": "database"}' --hide-headers # renderFileContent
@@ -271,6 +273,16 @@ locations:
 
 {"name":"Database"}
 
+```
+
+## A null template means we want to remove the destination file
+
+```
+> ./bin/cli.js -b examples generate delete_location.json dev -h # nullTemplate
+---
+{"destination":{},"tags":{}}
+---
+null
 ```
 
 ## Persist the result using the destination type of each template
