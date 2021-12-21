@@ -1,7 +1,7 @@
 {
   "locations": [
     {
-      "template": "<path_to_template>",
+      "template": null,
       "contextSelector": "check_doc",
       "destination": {}
     }

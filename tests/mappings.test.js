@@ -36,7 +36,7 @@ tap.test('Mappings', async (t) => {
   });
 
   t.test('When a valid configDir is passed', async (t) => {
-    t.plan(6);
+    t.plan(7);
 
     t.beforeEach((t) => {
       t.context.ms = new Mappings(existingConfigDir);
@@ -61,6 +61,20 @@ tap.test('Mappings', async (t) => {
         locations: [
           {
             template: 'templates/1',
+            contextSelector: '1',
+            tags: {},
+            destination: {},
+          },
+        ],
+      });
+    });
+
+    t.test('Should return a valid mapping', async (t) => {
+      t.plan(1);
+      t.strictSame(await t.context.ms.render('null_template.njk', context), {
+        locations: [
+          {
+            template: null,
             contextSelector: '1',
             tags: {},
             destination: {},

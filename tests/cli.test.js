@@ -18,9 +18,9 @@ function getCommand(comment) {
 }
 
 tap.test('Give the readme examples', (t) => {
-  t.plan(15);
+  t.plan(16);
 
-  t.test('Sohuld list mappings', (t) => {
+  t.test('Should list mappings', (t) => {
     t.plan(1);
     const [command, output] = getCommand('# listMappings');
     const result = execSync(command, { encoding: 'utf-8' });
@@ -28,7 +28,7 @@ tap.test('Give the readme examples', (t) => {
     t.strictSame(result, output);
   });
 
-  t.test('Sohuld list templates', (t) => {
+  t.test('Should list templates', (t) => {
     t.plan(1);
     const [command, output] = getCommand('# listTemplates');
     const result = execSync(command, { encoding: 'utf-8' });
@@ -95,6 +95,14 @@ tap.test('Give the readme examples', (t) => {
   t.test('Should render the example template in human readable format', (t) => {
     t.plan(1);
     const [command, output] = getCommand('# renderHumanReadable');
+    const result = execSync(command, { encoding: 'utf-8' });
+
+    t.strictSame(result, output);
+  });
+
+  t.test('Should render the template as null', (t) => {
+    t.plan(1);
+    const [command, output] = getCommand('# nullTemplate');
     const result = execSync(command, { encoding: 'utf-8' });
 
     t.strictSame(result, output);
