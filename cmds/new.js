@@ -9,7 +9,7 @@ exports.command = 'new <mapping>';
 exports.desc = `Output a template for the selected mapping`;
 
 exports.builder = (yargs) => {
-  yargs.option('mapping', {
+  yargs.positional('mapping', {
     describe: 'the type of mapping you want to generate',
     choices: fs.readdirSync(templatesDir, {
       encoding: 'utf-8',
