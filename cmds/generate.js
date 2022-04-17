@@ -32,7 +32,6 @@ exports.builder = (yargs) => {
     .option('hide-headers', {
       describe: 'Hide the header from the human readable output',
       type: 'boolean',
-      default: false,
       implies: 'filter-by',
     })
     .options('filter-by', {
