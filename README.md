@@ -4,6 +4,19 @@ Template your files
 
 This a tool/library born from the necessity of templating multiple files and pushing them in multiple locations.
 
+# The flow
+
+![The flow](examples/flow.gif)
+
+0. run `tp generate <mapping> [context-selector]`
+1. interpolates _Mapping_ and the _selected context_ to generate a **rendered mapping**
+2. Interpolates **rendered mapping** with the _selected context_ to get a contexts for each templates
+3. Interpolates _Template A_ with its context to get **rendered Template A**
+4. Interpolates _Template B_ with its context to get **rendered Template B**
+5. Using the destinations in **rendered mapping** and **rendered Template A** and **rendered Template B** generates a github PR
+
+I know it is confusing, you might want to check out the examples
+
 # Quick start
 
 ```bash
@@ -462,20 +475,6 @@ Options:
       --mappings-dir   directory where to search for mappings  [string] [default: "mappings"]
       --templates-dir  directory where to find the templates  [string] [default: "templates"]
 ```
-
-# The flow
-
-![The flow](examples/flow.gif)
-
-0. run `tp generate <mapping> [context-selector]`
-1. interpolates _Mapping_ and the _selected context_ to generate a __rendered mapping__
-2. Interpolates  __rendered mapping__ with the _selected context_ to get a contexts for each templates
-3. Interpolates _Template A_ with its context to get __rendered Template A__
-4. Interpolates _Template B_ with its context to get __rendered Template B__
-5. Using the destinations in __rendered mapping__ and __rendered Template A__ and __rendered Template B__ generates a github PR
-
-I know it is confusing, you might want to check out the examples
-
 
 # Terminology
 
