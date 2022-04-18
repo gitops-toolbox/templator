@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/gitops-toolbox/templator/compare/v0.6.0...v0.7.0) (2022-04-18)
+
+
+### Miscellaneous Chores
+
+* release 0.7.0 ([84ba6a3](https://github.com/gitops-toolbox/templator/commit/84ba6a349b7476a37a51541178c0bf75c6f7e06a))
+
 ## [0.6.0](https://github.com/gitops-toolbox/templator/compare/v0.5.0...v0.6.0) (2022-04-18)
 
 
