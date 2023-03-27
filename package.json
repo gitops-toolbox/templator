@@ -28,7 +28,7 @@
     "tp": "bin/cli.js"
   },
   "devDependencies": {
-    "prettier": "2.8.4",
+    "prettier": "2.8.7",
     "tap": "^16.0.1"
   },
   "tap": {
