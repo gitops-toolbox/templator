@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "prettier": "2.8.8",
-    "tap": "^16.0.1"
+    "tap": "^20.0.3"
   },
   "tap": {
     "check-coverage": false
