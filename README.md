@@ -109,7 +109,7 @@ prd:
 ```
 > ./bin/cli.js -b examples context dev.components.application # showContextSelector
 {
-  "name": "templator"
+  "name": "templato"
 }
 ```
 
